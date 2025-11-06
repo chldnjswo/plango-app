@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_default"
+    android:padding="24dp">
+
+    <!-- 제목 -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="국내 여행 어디를 가시겠어요?"
+        android:textStyle="bold"
+        android:layout_marginTop="60dp"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- 부제 -->
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사람들이 자주 가는 여행지는 다음과 같아요."
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 스크롤 가능 영역 -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollTrip"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
+        app:layout_constraintBottom_toTopOf="@id/searchContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fillViewport="true">
+
+        <!-- 여행지 목록 Grid -->
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/gridTrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:columnCount="2"
+            app:rowCount="4">
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MbtiButtonStyle"
+                android:id="@+id/btnSeoul"
+                app:layout_columnWeight="1"
+                android:text="서울"/>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MbtiButtonStyle"
+                android:id="@+id/btnBusan"
+                app:layout_columnWeight="1"
+                android:text="부산"/>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MbtiButtonStyle"
+                android:id="@+id/btnDaegu"
+                app:layout_columnWeight="1"
+                android:text="대구"/>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MbtiButtonStyle"
+                android:id="@+id/btnJeju"
+                app:layout_columnWeight="1"
+                android:text="제주도"/>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MbtiButtonStyle"
+                android:id="@+id/btnChuncheon"
+                app:layout_columnWeight="1"
+                android:text="춘천"/>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MbtiButtonStyle"
+                android:id="@+id/btnGyeongju"
+                app:layout_columnWeight="1"
+                android:text="경주"/>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MbtiButtonStyle"
+                android:id="@+id/btnJeonju"
+                app:layout_columnWeight="1"
+                android:text="전주"/>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MbtiButtonStyle"
+                android:id="@+id/btnGangneung"
+                app:layout_columnWeight="1"
+                android:text="강릉"/>
+
+        </androidx.gridlayout.widget.GridLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <!-- 하단 검색 영역 -->
+    <LinearLayout
+        android:id="@+id/searchContainer"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+
+        app:layout_constraintBottom_toTopOf="@id/nextButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="원하는 여행지가 없다면 여기서 검색해주세요!"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutSearchTrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/etSearchTrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="예: 광주"
+                android:minHeight="48dp"
+                android:paddingVertical="12dp"
+                android:textSize="16sp"
+                android:completionThreshold="1"
+                android:inputType="text"
+                android:imeOptions="actionDone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <!-- 다음 버튼 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextButton"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:text="다음"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/button_primary"
+        app:cornerRadius="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="24dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
