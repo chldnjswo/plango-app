@@ -1,8 +1,11 @@
 package com.plango.app.data.user
 
 import android.util.Log
-import com.example.plango_nickname.api.ApiProvider
-import com.example.plango_nickname.api.ApiService
+import com.plango.app.api.ApiProvider
+import com.plango.app.api.ApiService
+import com.plango.app.data.user.UserReadResponse
+import com.plango.app.data.user.UserRequest
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.math.log

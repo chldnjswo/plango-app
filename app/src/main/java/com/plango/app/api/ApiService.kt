@@ -1,9 +1,9 @@
-package com.example.plango_nickname.api
+package com.plango.app.api
 
 
-import com.example.plango_nickname.user.UserReadResponse
-import com.example.plango_nickname.user.UserRequest
-import com.example.plango_nickname.user.UserResponse
+import com.plango.app.data.user.UserReadResponse
+import com.plango.app.data.user.UserRequest
+import com.plango.app.data.user.UserResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

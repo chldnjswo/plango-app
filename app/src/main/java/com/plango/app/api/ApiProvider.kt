@@ -1,4 +1,4 @@
-package com.example.plango_nickname.api
+package com.plango.app.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

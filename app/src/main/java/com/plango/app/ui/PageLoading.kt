@@ -1,5 +1,6 @@
 package com.plango.app.ui
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -11,8 +12,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.plango_nickname.databinding.ActivityPageLoadingBinding
-import com.example.plango_nickname.user.UserViewModel
+import com.plango.app.databinding.ActivityPageLoadingBinding
+import com.plango.app.ui.main.HomeActivity
+import com.plango.app.viewmodel.UserViewModel
 import kotlinx.coroutines.launch
 import kotlin.jvm.java
 
@@ -31,7 +33,7 @@ class PageLoading : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 userViewModel.userResponseFlow.collect { response ->
                     if (response != null) {
-                        val intent = Intent(this@PageLoading, MyPage::class.java)
+                        val intent = Intent(this@PageLoading, HomeActivity::class.java)
                         Toast.makeText(this@PageLoading, "로그인 성공! 유저 키: ${response.publicId}", Toast.LENGTH_SHORT).show()
 
                         intent.putExtra("userName", userName)

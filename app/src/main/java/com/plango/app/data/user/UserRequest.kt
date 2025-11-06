@@ -1,4 +1,4 @@
-package com.example.plango_nickname.user
+package com.plango.app.data.user
 
 import com.google.gson.annotations.SerializedName
 

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.plango_nickname"
+    namespace = "com.plango.app"
     compileSdk {
         version = release(36)
     }
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.plango_nickname"
+        applicationId = "com.plango.app"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -56,6 +56,7 @@ dependencies {
 
     // ✅ (선택) OkHttp 로깅 인터셉터 - 네트워크 로그 확인용
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("androidx.fragment:fragment-ktx:1.8.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
     implementation("androidx.gridlayout:gridlayout:1.0.0")
     implementation("com.google.android.material:material:1.12.0")

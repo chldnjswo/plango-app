@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.plango.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,40 +14,25 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Plango_NickName">
+        android:theme="@style/Theme.App" >
         <activity
-            android:name=".SelectDay"
+            android:name="com.plango.app.ui.generate.GenerateActivity"
             android:exported="false" />
         <activity
-            android:name=".MainPage"
+            android:name="com.plango.app.ui.main.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".OverseasTrip"
+            android:name="com.plango.app.ui.register.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".DomesticTrip"
-            android:exported="false" />
-        <activity
-            android:name=".CreateTrip"
-            android:exported="false" />
-        <activity
-            android:name=".PageLoading"
-            android:exported="false" />
-        <activity
-            android:name=".PastTrip"
-            android:exported="false" />
-        <activity
-            android:name=".UpcomingTrip"
-            android:exported="false" />
-        <activity
-            android:name=".MyPage"
-            android:exported="false" />
-        <activity
-            android:name=".MBTI"
-            android:exported="false" />
+            android:name="com.plango.app.ui.PageLoading"
+            android:exported="false"
+            />
+
+
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
