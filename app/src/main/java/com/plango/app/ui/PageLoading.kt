@@ -21,13 +21,25 @@ import kotlin.jvm.java
 class PageLoading : AppCompatActivity() {
     private lateinit var binding: ActivityPageLoadingBinding
     private val userViewModel : UserViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPageLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val userName = intent.getStringExtra("userName")
-        binding.tvLoadingText.text = "${userName}님의 정보를 외우고 있어요"
+        val name = intent.getStringExtra("name") ?: ""
+        val mbti = intent.getStringExtra("mbti") ?: ""
+        binding.tvLoadingText.text = "${name}님의 정보를 외우고 있어요"
+
+        // 예외처리
+        if (name.isBlank() || mbti.isBlank()) {
+            Toast.makeText(this, "이름/MBTI가 누락되었습니다.", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
+        // DB 저장 로직
+        userViewModel.createUser(name, mbti)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -36,7 +48,7 @@ class PageLoading : AppCompatActivity() {
                         val intent = Intent(this@PageLoading, HomeActivity::class.java)
                         Toast.makeText(this@PageLoading, "로그인 성공! 유저 키: ${response.publicId}", Toast.LENGTH_SHORT).show()
 
-                        intent.putExtra("userName", userName)
+                        intent.putExtra("userName", name)
 
                         startActivity(intent)
                         finish()
