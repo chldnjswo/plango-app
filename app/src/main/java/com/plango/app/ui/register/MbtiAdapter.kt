@@ -1,7 +1,5 @@
 package com.plango.app.ui.register
 
-
-
 import android.content.Context
 import android.content.res.ColorStateList
 import android.view.LayoutInflater

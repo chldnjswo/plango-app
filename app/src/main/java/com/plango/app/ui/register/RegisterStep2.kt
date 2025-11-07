@@ -1,5 +1,6 @@
 package com.plango.app.ui.register
 
+import android.R.attr.name
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -64,24 +65,30 @@ class RegisterStep2 : Fragment() {
             UiEffect.showWithFade(binding.nextButton)
         }
 
+        viewModel.mbti.observe(viewLifecycleOwner) { mbti ->
+            binding.nextButton.isEnabled = !mbti.isNullOrEmpty()
+        }
+
 
         binding.nextButton.setOnClickListener {
-            val mbti = viewModel.mbti.value.toString()
-            val name = viewModel.nickname.value.toString()
+            val mbti = viewModel.mbti.value
+            val name = viewModel.nickname.value ?: ""
 
             if (mbti.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), "MBTI를 선택해주세요!", Toast.LENGTH_SHORT).show()
-            } else {
-                val intent = Intent(requireContext(), PageLoading::class.java).apply{
-                    putExtra("name", name)
-                    putExtra("mbti", mbti)
-                }
-                startActivity(intent)
-
-                userViewModel.createUser(name, mbti)
-                requireActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-
+                return@setOnClickListener
             }
+
+            val intent = Intent(requireContext(), PageLoading::class.java).apply{
+                putExtra("name", name)
+                putExtra("mbti", mbti)
+            }
+            startActivity(intent)
+
+            requireActivity().overridePendingTransition(
+                android.R.anim.slide_in_left, android.R.anim.slide_out_right
+            )
+
         }
 
         return binding.root

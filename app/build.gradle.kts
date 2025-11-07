@@ -64,4 +64,6 @@ dependencies {
 
     implementation("androidx.viewpager2:viewpager2:1.1.0")
     implementation("com.airbnb.android:lottie:6.3.0") //ai가 생각하는 느낌 효과
+
+    implementation("androidx.datastore:datastore-preferences:1.1.1") // 데이터 스토어 의존성
 }
