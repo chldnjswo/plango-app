@@ -10,7 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.plango.app.databinding.ActivityPageLoadingBinding
-import com.plango.app.ui.main.HomeActivity
+import com.plango.app.ui.home.HomeActivity
 import com.plango.app.viewmodel.UserViewModel
 import com.plango.app.data.user.UserPrefs
 import kotlinx.coroutines.launch

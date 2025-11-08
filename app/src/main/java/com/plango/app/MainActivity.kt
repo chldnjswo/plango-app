@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.plango.app.data.user.UserPrefs
 import com.plango.app.ui.generate.GenerateActivity
 import com.plango.app.ui.main.HomeActivity
+import com.plango.app.ui.home.HomeActivity
 import kotlinx.coroutines.launch
 import kotlin.jvm.java
 

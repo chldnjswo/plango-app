@@ -1,4 +1,4 @@
-package com.plango.app.ui.main
+package com.plango.app.ui.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
