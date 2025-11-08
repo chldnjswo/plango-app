@@ -1,6 +1,5 @@
 package com.plango.app.ui.register
 
-import android.R.attr.end
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

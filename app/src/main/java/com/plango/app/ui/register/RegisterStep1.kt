@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.plango.app.databinding.FragmentRegisterStep1Binding
-import com.plango.app.ui.register.RegisterActivity
 import com.plango.app.util.UiEffect
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -30,13 +29,13 @@ class RegisterStep1 : Fragment() {
 
         // 타이핑 효과 + 페이드인 효과 실행
         lifecycleScope.launch {
-            UiEffect.typeTextEffect(binding.tvGreeting, "안녕하세요 👋\n만나서 반가워요.", 55)
+            UiEffect.typeTextEffect(binding.tvGreeting, "안녕하세요 👋\n만나서 반가워요.", 50)
             delay(800)
-            UiEffect.typeTextEffect(binding.tvIntro, "저는 떠날지도의 AI 여행비서예요!", 55)
+            UiEffect.typeTextEffect(binding.tvIntro, "저는 떠날지도의 AI 여행비서예요!", 50)
             delay(800)
-            UiEffect.typeTextEffect(binding.tvExplain, "사용자님에 대해서 몇 가지\n알고 싶어요! 📝", 55)
+            UiEffect.typeTextEffect(binding.tvExplain, "사용자님에 대해서 몇 가지\n알고 싶어요! 📝", 50)
             delay(800)
-            UiEffect.typeTextEffect(binding.tvQuestion, "성함이 어떻게 되시나요?", 55)
+            UiEffect.typeTextEffect(binding.tvQuestion, "성함이 어떻게 되시나요?", 50)
 
             delay(600)
             UiEffect.showWithFade(binding.nicknameInput)

@@ -1,19 +1,16 @@
 package com.plango.app.ui.register
 
-import android.R.attr.name
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.plango.app.databinding.FragmentRegisterStep2Binding
 import com.plango.app.ui.PageLoading
 import com.plango.app.util.UiEffect

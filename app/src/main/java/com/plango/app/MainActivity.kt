@@ -2,16 +2,15 @@ package com.plango.app
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.plango.app.databinding.ActivityMainBinding
 import com.plango.app.ui.register.RegisterActivity
 import androidx.lifecycle.lifecycleScope
 import com.plango.app.data.user.UserPrefs
+import com.plango.app.ui.generate.GenerateActivity
 import com.plango.app.ui.main.HomeActivity
 import kotlinx.coroutines.launch
+import kotlin.jvm.java
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -44,11 +43,5 @@ class MainActivity : AppCompatActivity() {
             }
             finish() // MainActivity는 라우팅 전용 화면이기 때문에 라우팅 후 백그라운드에서 종료
         }
-
-//        binding.btn.setOnClickListener {
-//            val intent = Intent(this, RegisterActivity::class.java)
-//            startActivity(intent)
-//        }
-
     }
 }
