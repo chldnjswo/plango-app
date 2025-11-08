@@ -2,15 +2,12 @@ package com.plango.app
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.plango.app.databinding.ActivityMainBinding
 import com.plango.app.ui.register.RegisterActivity
 import androidx.lifecycle.lifecycleScope
 import com.plango.app.data.user.UserPrefs
-import com.plango.app.ui.main.HomeActivity
+import com.plango.app.ui.home.HomeActivity
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {

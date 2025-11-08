@@ -4,16 +4,13 @@ package com.plango.app.ui
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.plango.app.databinding.ActivityPageLoadingBinding
-import com.plango.app.ui.main.HomeActivity
+import com.plango.app.ui.home.HomeActivity
 import com.plango.app.viewmodel.UserViewModel
 import com.plango.app.data.user.UserPrefs
 import kotlinx.coroutines.launch

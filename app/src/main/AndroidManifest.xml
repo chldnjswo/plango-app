@@ -19,7 +19,7 @@
             android:name="com.plango.app.ui.generate.GenerateActivity"
             android:exported="false" />
         <activity
-            android:name="com.plango.app.ui.main.HomeActivity"
+            android:name="com.plango.app.ui.home.HomeActivity"
             android:exported="false" />
         <activity
             android:name="com.plango.app.ui.register.RegisterActivity"
