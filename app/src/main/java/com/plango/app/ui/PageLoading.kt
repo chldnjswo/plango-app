@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.plango.app.databinding.ActivityPageLoadingBinding
 import com.plango.app.ui.main.HomeActivity
 import com.plango.app.viewmodel.UserViewModel
+import com.plango.app.data.user.UserPrefs
 import kotlinx.coroutines.launch
 import kotlin.jvm.java
 
@@ -45,8 +46,10 @@ class PageLoading : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 userViewModel.userResponseFlow.collect { response ->
                     if (response != null) {
-                        val intent = Intent(this@PageLoading, HomeActivity::class.java)
                         Toast.makeText(this@PageLoading, "로그인 성공! 유저 키: ${response.publicId}", Toast.LENGTH_SHORT).show()
+                        UserPrefs.saveUserId(this@PageLoading, response.publicId) // 유저 키 값 저장
+
+                        val intent = Intent(this@PageLoading, HomeActivity::class.java)
 
                         intent.putExtra("userName", name)
 
