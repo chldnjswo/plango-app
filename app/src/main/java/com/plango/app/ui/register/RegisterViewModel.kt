@@ -1,6 +1,5 @@
 package com.plango.app.ui.register
 
-import android.R.attr.end
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,17 +20,5 @@ class RegisterViewModel : ViewModel() {
 
     fun setMbti(type: String) {
         _mbti.value = type
-    }
-
-    // 서버 전송용 함수
-    fun toRequestMap(): Map<String, Any>? {
-
-        val nickname = _nickname.value ?: return null
-        val mbti = _mbti.value ?: return null
-
-        return mapOf(
-            "nickname" to nickname,
-            "mbti" to mbti
-        )
     }
 }
