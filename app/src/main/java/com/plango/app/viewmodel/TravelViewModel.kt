@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plango.app.data.travel.TravelReadResponse
 import com.plango.app.data.travel.TravelRepository
-import com.plango.app.data.user.UserReadResponse
 import com.plango.app.ui.generate.CompanionItem
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
