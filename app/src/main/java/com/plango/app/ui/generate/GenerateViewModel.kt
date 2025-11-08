@@ -46,28 +46,4 @@ class GenerateViewModel : ViewModel() {
     fun setThemes(values: List<String>) {
         _themes.value = values
     }
-
-    // 서버 전송용 함수
-    fun toRequestMap(): Map<String, Any>? {
-
-        val dest = _destination.value
-        val start = _startDate.value
-        val end = _endDate.value
-        val comp = _companionType.value
-        val themeList = _themes.value
-
-        // 예외처리
-        if (dest.isNullOrEmpty() || start.isNullOrEmpty() ||
-            end.isNullOrEmpty() || comp == null ||
-            themeList == null || themeList.size != 3
-        ) return null
-
-        return mapOf(
-            "destination" to dest,
-            "start_date" to start,
-            "end_date" to end,
-            "companion_type" to comp.toString(),
-            "themes" to themeList
-        )
-    }
 }

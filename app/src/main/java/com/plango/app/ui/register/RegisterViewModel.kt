@@ -22,16 +22,4 @@ class RegisterViewModel : ViewModel() {
     fun setMbti(type: String) {
         _mbti.value = type
     }
-
-    // 서버 전송용 함수
-    fun toRequestMap(): Map<String, Any>? {
-
-        val nickname = _nickname.value ?: return null
-        val mbti = _mbti.value ?: return null
-
-        return mapOf(
-            "nickname" to nickname,
-            "mbti" to mbti
-        )
-    }
 }
