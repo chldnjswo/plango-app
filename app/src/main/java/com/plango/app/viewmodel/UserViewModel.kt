@@ -13,6 +13,11 @@ class UserViewModel : ViewModel() {
 
     val userResponseFlow: StateFlow<UserReadResponse?> = repository.userFlow
 
+    fun getUserById(publicId: String) {
+        viewModelScope.launch {
+            repository.getUserById(publicId)
+        }
+    }
     fun createUser(name: String, mbti: String) {
         viewModelScope.launch {
             repository.createUserAndCache(name, mbti)
