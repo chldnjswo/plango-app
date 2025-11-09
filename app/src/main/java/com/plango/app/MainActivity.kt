@@ -8,10 +8,8 @@ import com.plango.app.ui.register.RegisterActivity
 import androidx.lifecycle.lifecycleScope
 import com.plango.app.data.user.UserPrefs
 import com.plango.app.ui.generate.GenerateActivity
-import com.plango.app.ui.main.HomeActivity
 import com.plango.app.ui.home.HomeActivity
 import kotlinx.coroutines.launch
-import kotlin.jvm.java
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -20,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         // launch 블록 전체 코루틴으로 실행 -> 액티비티가 죽으면 코루틴도 취소
         lifecycleScope.launch {

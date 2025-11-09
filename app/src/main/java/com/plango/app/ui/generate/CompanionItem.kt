@@ -6,5 +6,5 @@ data class CompanionItem (
 )
 
 {
-    enum class CompanionType { ALONE, COUPLE, FAMILY, FRIENDS }
+    enum class CompanionType { SOLO, COUPLE, FAMILY, FRIEND }
 }

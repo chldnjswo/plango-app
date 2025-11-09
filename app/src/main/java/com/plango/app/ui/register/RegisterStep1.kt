@@ -1,6 +1,7 @@
 package com.plango.app.ui.register
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.plango.app.databinding.FragmentRegisterStep1Binding
 import com.plango.app.util.UiEffect
+import com.plango.app.viewmodel.RegisterViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RegisterStep1 : Fragment() {
 
     private lateinit var binding: FragmentRegisterStep1Binding
-    private val viewModel: RegisterViewModel by activityViewModels()  // ✅ Acivity 범위 공유 ViewModel
+    private val viewModel: RegisterViewModel by activityViewModels {
+        defaultViewModelProviderFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -49,10 +53,12 @@ class RegisterStep1 : Fragment() {
             if (name.isEmpty()) {
                 Toast.makeText(requireContext(), "사용하실 이름을 입력해주세요!", Toast.LENGTH_SHORT).show()
             } else {
-                // ✅ ViewModel에 닉네임 저장
+                //  ViewModel에 닉네임 저장
                 viewModel.setNickname(name)
+                Log.d("RegisterStep1", "닉네임: $name")
 
-                // ✅ 다음 프래그먼트로 이동
+
+                //  다음 프래그먼트로 이동
                 requireActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 (activity as? RegisterActivity)?.moveToNextFragment(RegisterStep2())
             }
