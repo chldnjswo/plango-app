@@ -2,6 +2,7 @@ package com.plango.app.ui.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.plango.app.databinding.FragmentRegisterStep2Binding
 import com.plango.app.ui.PageLoading
 import com.plango.app.util.UiEffect
+import com.plango.app.viewmodel.RegisterViewModel
 import com.plango.app.viewmodel.UserViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -22,7 +24,9 @@ import kotlin.getValue
 class RegisterStep2 : Fragment() {
 
     private lateinit var binding: FragmentRegisterStep2Binding
-    private val viewModel: RegisterViewModel by activityViewModels()
+    private val viewModel: RegisterViewModel by activityViewModels {
+        defaultViewModelProviderFactory
+    }
     private val userViewModel: UserViewModel by viewModels()
 
     private lateinit var adapter: MbtiAdapter
@@ -70,6 +74,8 @@ class RegisterStep2 : Fragment() {
         binding.nextButton.setOnClickListener {
             val mbti = viewModel.mbti.value
             val name = viewModel.nickname.value ?: ""
+            Log.d("RegisterStep2", "mbti: $mbti, name: $name")
+
 
             if (mbti.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), "MBTI를 선택해주세요!", Toast.LENGTH_SHORT).show()
@@ -77,8 +83,9 @@ class RegisterStep2 : Fragment() {
             }
 
             val intent = Intent(requireContext(), PageLoading::class.java).apply{
-                putExtra("name", name)
+                putExtra("userName", name)
                 putExtra("mbti", mbti)
+                putExtra("mode", "user")
             }
             startActivity(intent)
 

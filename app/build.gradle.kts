@@ -66,4 +66,10 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.3.0") //ai가 생각하는 느낌 효과
 
     implementation("androidx.datastore:datastore-preferences:1.1.1") // 데이터 스토어 의존성
+
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation ("com.google.android.libraries.places:places:3.5.0")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
 }

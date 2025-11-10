@@ -21,6 +21,15 @@ object UserRepository {
 
 
 
+    suspend fun getUserById(publicId: String) {
+        try {
+            val response = api.getUser(publicId)
+            Log.d("UserRepository", " 서버에서 유저 정보 재조회: $response")
+            _userFlow.value = response
+        } catch (e: Exception) {
+            Log.e("UserRepository", "유저 정보 불러오기 실패: ${e.message}", e)
+        }
+    }
     suspend fun createUserAndCache(name: String, mbti: String) {
         try {
 

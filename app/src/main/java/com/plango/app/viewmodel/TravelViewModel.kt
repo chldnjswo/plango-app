@@ -2,30 +2,57 @@ package com.plango.app.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.plango.app.data.travel.TravelReadResponse
-import com.plango.app.data.travel.TravelRepository
-import com.plango.app.ui.generate.CompanionItem
+import com.plango.app.data.travel.*
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.util.Date
 
 class TravelViewModel : ViewModel() {
-    private val repository = TravelRepository
-    val userResponseFlow: StateFlow<TravelReadResponse?> = repository.travelFlow
 
+    private val repository = TravelRepository
+
+    val travelDetailFlow: StateFlow<TravelDetailResponse?> = repository.travelDetailFlow
+    val travelListFlow: StateFlow<List<TravelSummaryResponse>> = repository.travelListFlow
+
+
+    /**  여행 생성 */
     fun createTravel(
-        destination: String,
-        startDate: Date,
-        endDate: Date,
-        companionType: CompanionItem.CompanionType,
-        theme1: String,
-        theme2: String,
-        theme3: String
+        userPublicId: String,
+        travelType: String,
+        travelDest: String,
+        startDate: String,
+        endDate: String,
+        themes: List<String>,
+        companionType: String
     ) {
         viewModelScope.launch {
-            repository.createTravelAndCache(
-                destination, startDate, endDate, companionType, theme1, theme2, theme3
+            val request = TravelCreateRequest(
+                userPublicId = userPublicId,
+                travelType = travelType,
+                travelDest = travelDest,
+                startDate = startDate,
+                endDate = endDate,
+                themes = themes,
+                companionType = companionType
             )
+            repository.createTravel(request)
         }
+    }
+
+    /**  목록 불러오기 */
+    fun getUpcomingTravels(publicId: String) = viewModelScope.launch {
+        repository.getUpcomingTravels(publicId)
+    }
+
+    fun getFinishedTravels(publicId: String) = viewModelScope.launch {
+        repository.getFinishedTravels(publicId)
+    }
+
+    fun getOngoingTravels(publicId: String) = viewModelScope.launch {
+        repository.getOngoingTravels(publicId)
+    }
+
+    /**  상세조회 */
+    fun getTravelDetail(travelId: Long) = viewModelScope.launch {
+        repository.getTravelDetail(travelId)
     }
 }

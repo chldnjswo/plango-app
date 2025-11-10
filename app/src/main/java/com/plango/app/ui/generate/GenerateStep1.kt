@@ -17,6 +17,8 @@ import kotlinx.coroutines.launch
 
 class GenerateStep1 : Fragment () {
     private lateinit var binding: FragmentGenerateStep1Binding
+    private val viewModel: GenerateViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,11 +41,14 @@ class GenerateStep1 : Fragment () {
         }
 
         binding.domesticButton.setOnClickListener {
+            viewModel.setTravelType("DOMESTIC") // ✅ ViewModel에 저장
             requireActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             (activity as? GenerateActivity)?.moveToNextFragment(GenerateStep2A())
         }
 
+
         binding.abroadButton.setOnClickListener {
+            viewModel.setTravelType("OVERSEAS") // ✅ ViewModel에 저장
             requireActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             (activity as? GenerateActivity)?.moveToNextFragment(GenerateStep2B())
         }

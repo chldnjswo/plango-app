@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GenerateViewModel : ViewModel() {
-    enum class CompanionType { ALONE, COUPLE, FAMILY, FRIENDS }
+    enum class CompanionType { SOLO, COUPLE, FAMILY, FRIEND }
 
     // 여행지
     private val _destination = MutableLiveData<String>()
@@ -26,6 +26,13 @@ class GenerateViewModel : ViewModel() {
     // 여행 테마 (3개 저장)
     private val _themes = MutableLiveData<List<String>>()
     val themes: LiveData<List<String>> get() = _themes
+
+    private val _travelType = MutableLiveData<String>()
+    val travelType: LiveData<String> get() = _travelType
+
+    fun setTravelType(value: String) {
+        _travelType.value = value
+    }
 
     fun setDestination(value: String) {
         _destination.value = value
