@@ -35,6 +35,7 @@ class CourseAdapter(private val context: Context) :
         fun bind(item: TravelDetailResponse.Course) {
             binding.tvName.text = item.locationName
             binding.tvNote.text = item.note ?: ""
+            binding.tvName.text = "${item.order}. ${item.locationName}"
 
             // Google Places API에서 장소 검색
             val fields = listOf(Place.Field.PHOTO_METADATAS)

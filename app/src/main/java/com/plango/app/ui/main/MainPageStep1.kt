@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.tabs.TabLayout
 import com.plango.app.databinding.FragmentMainPageStep1Binding
@@ -62,11 +63,15 @@ class MainPageStep1 : Fragment(), OnMapReadyCallback {
                 if (detail == null) return@collectLatest
                 travelDetail = detail
                 setupTabs(detail)
-                updateDayMap(0) // 첫 번째 day로 초기 표시
+
+                // map 초기화 이후 마커 표시 보장
+                map.setOnMapLoadedCallback {
+                    updateDayMap(0)
+                }
             }
         }
 
-        // 탭 변경 시 마커/리스트 업데이트
+        //  탭 변경 시 마커/리스트 갱신
         binding.tabDays.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 currentDayIndex = tab.position
@@ -79,7 +84,6 @@ class MainPageStep1 : Fragment(), OnMapReadyCallback {
             }
         })
     }
-
     private fun setupTabs(detail: TravelDetailResponse) {
         binding.tabDays.removeAllTabs()
         detail.days?.forEachIndexed { index, _ ->
@@ -91,29 +95,34 @@ class MainPageStep1 : Fragment(), OnMapReadyCallback {
         val detail = travelDetail ?: return
         val day = detail.days?.getOrNull(dayIndex) ?: return
 
-        map.clear() // 기존 마커 초기화
-        adapter.submitList(day.courses) // 리사이클러뷰 업데이트
+        map.clear()
+        adapter.submitList(day.courses)
 
-        // 지도 마커 표시
-        day.courses.forEach { course ->
+        //  일단 모든 마커를 한꺼번에 저장
+        val boundsBuilder = LatLngBounds.Builder()
+        var firstMarkerAdded = false
+
+        day.courses.forEachIndexed { index, course ->
             if (course.lat != null && course.lng != null) {
                 val pos = LatLng(course.lat, course.lng)
                 map.addMarker(
                     MarkerOptions()
                         .position(pos)
-                        .title("${course.order}. ${course.locationName}")
+                        .title("${index + 1}. ${course.locationName}")
                         .snippet(course.theme ?: "")
                 )
+                boundsBuilder.include(pos)
+                if (!firstMarkerAdded) firstMarkerAdded = true
             }
         }
 
-        // 첫 번째 위치로 카메라 이동
-        day.courses.firstOrNull()?.let { first ->
-            val start = LatLng(first.lat ?: 0.0, first.lng ?: 0.0)
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(start, 15f))
+        //  모든 마커가 추가된 뒤 카메라 이동
+        if (firstMarkerAdded) {
+            val bounds = boundsBuilder.build()
+            map.setOnMapLoadedCallback {
+                map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))
+            }
         }
-
-
     }
 
     override fun onDestroyView() {
