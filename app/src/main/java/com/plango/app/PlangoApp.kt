@@ -1,13 +1,19 @@
 package com.plango.app
 
 import android.app.Application
+import android.util.Log
 import com.google.android.libraries.places.api.Places
 
 class PlangoApp : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        val apiKey = BuildConfig.MAPS_API_KEY
+
+        Log.d("PlangoApp", "🔑 Loaded API Key: $apiKey")
+
         if (!Places.isInitialized()) {
-            Places.initialize(applicationContext, "AIzaSyBpfnjMYTTZbdd2cny-CP9kyrXASGaUgz0")
+            Places.initialize(applicationContext, apiKey)
         }
     }
 }

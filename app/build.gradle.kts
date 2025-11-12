@@ -1,15 +1,25 @@
+import java.util.Properties
+
+val envFile = rootProject.file(".env")
+val envProps = Properties().apply {
+    if (envFile.exists()) {
+        load(envFile.inputStream())
+    }
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
+
 }
 
 android {
     namespace = "com.plango.app"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
     buildFeatures {
         viewBinding=true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -18,6 +28,10 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "MAPS_API_KEY", "\"${envProps["MAPS_API_KEY"] ?: ""}\"")
+
+        // ✅ Manifest 내 meta-data로도 전달
+        manifestPlaceholders["MAPS_API_KEY"] = envProps["MAPS_API_KEY"] ?: ""
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

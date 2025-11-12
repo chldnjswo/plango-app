@@ -11,6 +11,7 @@ import com.google.android.libraries.places.api.model.PhotoMetadata
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.plango.app.R
 import com.plango.app.data.travel.TravelDetailResponse
@@ -37,32 +38,31 @@ class CourseAdapter(private val context: Context) :
 
             // Google Places API에서 장소 검색
             val fields = listOf(Place.Field.PHOTO_METADATAS)
-            val request = FetchPlaceRequest.newInstance(item.locationName, fields)
 
-            placesClient.fetchPlace(request)
+
+            val request = FindAutocompletePredictionsRequest.builder()
+                .setQuery(item.locationName)
+                .build()
+
+            placesClient.findAutocompletePredictions(request)
                 .addOnSuccessListener { response ->
-                    val place = response.place
-                    val metadata: PhotoMetadata? = place.photoMetadatas?.firstOrNull()
-                    if (metadata != null) {
-                        val photoRequest = FetchPhotoRequest.builder(metadata)
-                            .setMaxWidth(800)
-                            .setMaxHeight(800)
-                            .build()
-                        placesClient.fetchPhoto(photoRequest)
-                            .addOnSuccessListener { photoResponse ->
-                                Glide.with(context)
-                                    .load(photoResponse.bitmap)
-                                    .into(binding.imgThumbnail)
+                    val placeId = response.autocompletePredictions.firstOrNull()?.placeId
+                    if (placeId != null) {
+                        val fetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, listOf(Place.Field.PHOTO_METADATAS))
+                        placesClient.fetchPlace(fetchPlaceRequest)
+                            .addOnSuccessListener { placeResponse ->
+                                val metadata = placeResponse.place.photoMetadatas?.firstOrNull()
+                                if (metadata != null) {
+                                    val photoRequest = FetchPhotoRequest.builder(metadata)
+                                        .setMaxWidth(800).setMaxHeight(800).build()
+                                    placesClient.fetchPhoto(photoRequest)
+                                        .addOnSuccessListener { photoResponse ->
+                                            Glide.with(context)
+                                                .load(photoResponse.bitmap)
+                                                .into(binding.imgThumbnail)
+                                        }
+                                }
                             }
-                            .addOnFailureListener {
-                                Glide.with(context)
-                                    .load(R.drawable.ic_launcher_foreground)
-                                    .into(binding.imgThumbnail)
-                            }
-                    } else {
-                        Glide.with(context)
-                            .load(R.drawable.ic_launcher_foreground)
-                            .into(binding.imgThumbnail)
                     }
                 }
                 .addOnFailureListener { e ->
