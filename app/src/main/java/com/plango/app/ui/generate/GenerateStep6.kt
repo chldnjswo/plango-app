@@ -14,6 +14,8 @@ import com.plango.app.data.user.UserPrefs
 import com.plango.app.databinding.FragmentGenerateStep6Binding
 import com.plango.app.ui.PageLoading
 import kotlinx.coroutines.launch
+import com.plango.app.util.UiEffect
+import kotlinx.coroutines.delay
 
 class GenerateStep6 : Fragment() {
 
@@ -35,6 +37,21 @@ class GenerateStep6 : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentGenerateStep6Binding.inflate(inflater, container, false)
+
+        binding.recyclerTheme.visibility = View.INVISIBLE
+        binding.btnNext.visibility = View.INVISIBLE
+        lifecycleScope.launch {
+            UiEffect.typeTextEffect(binding.tvQuestion, "어떤 테마의 여행을 원하시나요? \uD83C\uDFA8", 40)
+            delay(500)
+            UiEffect.typeTextEffect(binding.tvExplain, "\n\n\n 3개를 선택해주세요!", 40)
+
+            delay(500)
+            UiEffect.showWithFade(binding.recyclerTheme)
+
+            delay(500)
+            UiEffect.showWithFade(binding.btnNext)
+        }
+
         return binding.root
     }
 
