@@ -45,10 +45,57 @@
         android:overScrollMode="always"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/tvRecommend"
-        app:layout_constraintBottom_toTopOf="@id/nextButton"
+        app:layout_constraintBottom_toTopOf="@id/searchContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_destination_domestic" />
+
+    <LinearLayout
+        android:id="@+id/searchContainer"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+
+        app:layout_constraintBottom_toTopOf="@id/nextButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="원하는 여행지가 없다면 여기서 검색해주세요!"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutSearchTrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/etSearchTrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="예: 광주"
+                android:minHeight="48dp"
+                android:paddingVertical="12dp"
+                android:textSize="16sp"
+                android:completionThreshold="1"
+                android:inputType="text"
+                android:imeOptions="actionDone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+    </LinearLayout>
 
 
     <com.google.android.material.button.MaterialButton
