@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.plango.app.databinding.FragmentGenerateStep5Binding
+import kotlinx.coroutines.launch
+import com.plango.app.util.UiEffect
+import kotlinx.coroutines.delay
 
 class GenerateStep5 : Fragment() {
 
@@ -29,6 +33,21 @@ class GenerateStep5 : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentGenerateStep5Binding.inflate(inflater, container, false)
+
+        binding.recyclerCompanion.visibility = View.INVISIBLE
+        binding.btnNext.visibility = View.INVISIBLE
+        lifecycleScope.launch {
+            UiEffect.typeTextEffect(binding.tvQuestion, "누구와 함께 가시나요? 👥", 40)
+            delay(500)
+            UiEffect.typeTextEffect(binding.tvExplain, "\n\n\n 동반자를 선택해주세요!", 40)
+
+            delay(500)
+            UiEffect.showWithFade(binding.recyclerCompanion)
+
+            delay(500)
+            UiEffect.showWithFade(binding.btnNext)
+        }
+
         return binding.root
     }
 
