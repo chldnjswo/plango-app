@@ -64,7 +64,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="원하는 여행지가 없다면 여기서 검색해주세요!"
+            android:text="원하는 여행지가 없다면 여기에 입력해주세요!"
             android:textColor="@color/text_secondary"
             android:textSize="13sp"
             android:gravity="center"

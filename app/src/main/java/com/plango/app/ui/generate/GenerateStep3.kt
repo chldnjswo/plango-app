@@ -29,7 +29,7 @@ class GenerateStep3 : Fragment () {
         binding.nextButton.visibility = View.INVISIBLE
         binding.ivDestination.visibility = View.INVISIBLE
         lifecycleScope.launch {
-            UiEffect.typeTextEffect(binding.tvMessage,"${destination} 여행을 가신다니, 좋은 선택이에요!\n\n", 50)
+            UiEffect.typeTextEffect(binding.tvMessage,"${destination} 여행을 가신다니, 좋은 선택이에요!\n\n", 40)
 
             delay(400)
             UiEffect.showWithFade(binding.ivDestination)

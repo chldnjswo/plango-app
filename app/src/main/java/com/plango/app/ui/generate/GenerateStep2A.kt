@@ -51,6 +51,22 @@ class GenerateStep2A : Fragment() {
 
     private fun setupRecycler() {
         adapter = DomesticAdapter(requireContext(), domesticList) { selected ->
+            if (selected.isSelected) {
+                selected.isSelected = false
+                viewModel.setDestination("")
+                binding.nextButton.isEnabled = false
+
+                binding.etSearchTrip.apply {
+                    isEnabled = true
+                }
+
+                binding.recyclerDomestic.alpha = 1f
+                binding.recyclerDomestic.isEnabled = true
+
+                adapter.notifyDataSetChanged()
+                return@DomesticAdapter
+            }
+
             domesticList.forEach { it.isSelected = it == selected }
             adapter.notifyDataSetChanged()
 
@@ -69,9 +85,6 @@ class GenerateStep2A : Fragment() {
     }
 
     private fun setupAutoComplete() {
-        val cities = readCitiesFromJson()
-        val adapterAuto = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, cities)
-        binding.etSearchTrip.setAdapter(adapterAuto)
 
         binding.etSearchTrip.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -112,9 +125,9 @@ class GenerateStep2A : Fragment() {
         binding.searchContainer.visibility = View.INVISIBLE
 
         lifecycleScope.launch {
-            UiEffect.typeTextEffect(binding.tvDomesticWhere, "국내 어디로 가시겠어요?", 50)
-            delay(800)
-            UiEffect.typeTextEffect(binding.tvRecommend, "\n\n\n추천 여행지는 다음과 같아요.", 50)
+            UiEffect.typeTextEffect(binding.tvDomesticWhere, "국내 어디로 가시겠어요?", 40)
+            delay(600)
+            UiEffect.typeTextEffect(binding.tvRecommend, "\n\n\n추천 여행지는 다음과 같아요.", 40)
             delay(400)
             UiEffect.showWithFade(binding.recyclerDomestic)
             delay(400)
@@ -135,12 +148,5 @@ class GenerateStep2A : Fragment() {
             viewModel.setDestination(destination)
             (activity as? GenerateActivity)?.moveToNextFragment(GenerateStep3())
         }
-    }
-
-    private fun readCitiesFromJson(): List<String> {
-        val inputStream = resources.openRawResource(R.raw.cities)
-        val jsonText = inputStream.bufferedReader().use(BufferedReader::readText)
-        val jsonArray = JSONArray(jsonText)
-        return List(jsonArray.length()) { i -> jsonArray.getString(i) }
     }
 }
