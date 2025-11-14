@@ -30,9 +30,9 @@ class GenerateStep1 : Fragment () {
         binding.abroadButton.visibility = View.INVISIBLE
         binding.domesticButton.visibility = View.INVISIBLE
         lifecycleScope.launch {
-            UiEffect.typeTextEffect(binding.tvMake, "\n여행 계획을 \n 만들어 볼까요?", 55)
-            delay(800)
-            UiEffect.typeTextEffect(binding.tvWhere, "\n\n\n\n 어디로 여행을 가실 예정인가요?", 55)
+            UiEffect.typeTextEffect(binding.tvMake, "\n여행 계획을 \n 만들어 볼까요?", 40)
+            delay(600)
+            UiEffect.typeTextEffect(binding.tvWhere, "\n\n\n\n 어디로 여행을 가실 예정인가요?", 40)
 
             delay(500)
             UiEffect.showWithFade(binding.domesticButton)

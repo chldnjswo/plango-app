@@ -1,6 +1,8 @@
 package com.plango.app.ui.generate
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,48 +36,112 @@ class GenerateStep2B : Fragment () {
     ): View {
         binding = FragmentGenerateStep2bBinding.inflate(inflater, container, false)
 
+        setupRecycler()
+        setupAutoComplete()
+        setupFadeAnimation()
+        setupNextButton()
+
+        return binding.root
+    }
+
+    private fun setupRecycler() {
         adapter = AbroadAdapter(requireContext(), abroadList) { selected ->
+            if (selected.isSelected) {
+                selected.isSelected = false
+                viewModel.setDestination("")
+                binding.nextButton.isEnabled = false
+
+                binding.etSearchTrip.apply {
+                    isEnabled = true
+                }
+
+                binding.recyclerAbroad.alpha = 1f
+                binding.recyclerAbroad.isEnabled = true
+
+                adapter.notifyDataSetChanged()
+                return@AbroadAdapter
+            }
+
             abroadList.forEach { it.isSelected = it == selected }
             adapter.notifyDataSetChanged()
+
+            // Recycler 선택 시: 입력창 초기화 + 비활성화
+            binding.etSearchTrip.apply {
+                text.clear()
+                isEnabled = false
+            }
+
             viewModel.setDestination(selected.destination)
+            binding.nextButton.isEnabled = true
         }
 
         binding.recyclerAbroad.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerAbroad.adapter = adapter
-        binding.recyclerAbroad.setHasFixedSize(true)
+    }
 
+    private fun setupAutoComplete() {
+
+        binding.etSearchTrip.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!s.isNullOrEmpty()) {
+                    // 입력 시: 리사이클러뷰 비활성화
+                    abroadList.forEach { it.isSelected = false }
+                    adapter.notifyDataSetChanged()
+                    binding.recyclerAbroad.alpha = 0.4f
+                    binding.recyclerAbroad.isEnabled = false
+                    viewModel.setDestination(s.toString())
+                    binding.nextButton.isEnabled = true
+                } else {
+                    // 입력창 비면 다시 활성화
+                    binding.recyclerAbroad.alpha = 1f
+                    binding.recyclerAbroad.isEnabled = true
+                    binding.nextButton.isEnabled = false
+                }
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.etSearchTrip.setOnItemClickListener { parent, _, position, _ ->
+            val city = parent.getItemAtPosition(position).toString()
+            binding.etSearchTrip.setText(city)
+            viewModel.setDestination(city)
+            binding.nextButton.isEnabled = true
+
+            // 리사이클러뷰 비활성화
+            binding.recyclerAbroad.alpha = 0.4f
+            binding.recyclerAbroad.isEnabled = false
+        }
+    }
+
+    private fun setupFadeAnimation() {
         binding.nextButton.visibility = View.INVISIBLE
         binding.recyclerAbroad.visibility = View.INVISIBLE
+        binding.searchContainer.visibility = View.INVISIBLE
+
         lifecycleScope.launch {
-            UiEffect.typeTextEffect(binding.tvAbroadWhere, "해외 어디로 가시겠어요?", 50)
-            delay(800)
-            UiEffect.typeTextEffect(binding.tvRecommend, "\n\n\n 추천 여행지는 다음과 같아요.", 50)
-
-            delay(500)
+            UiEffect.typeTextEffect(binding.tvAbroadWhere, "해외 어디로 가시겠어요?", 40)
+            delay(600)
+            UiEffect.typeTextEffect(binding.tvRecommend, "\n\n\n추천 여행지는 다음과 같아요.", 40)
+            delay(400)
             UiEffect.showWithFade(binding.recyclerAbroad)
-
-            delay(500)
+            delay(400)
+            UiEffect.showWithFade(binding.searchContainer)
+            delay(400)
             UiEffect.showWithFade(binding.nextButton)
         }
+    }
 
-        viewModel.destination.observe(viewLifecycleOwner) { destination ->
-            binding.nextButton.isEnabled = !destination.isNullOrEmpty()
-        }
-
+    private fun setupNextButton() {
         binding.nextButton.setOnClickListener {
             val destination = viewModel.destination.value
-
             if (destination.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), "목적지를 선택해주세요!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "목적지를 선택하거나 입력해주세요!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             viewModel.setDestination(destination)
-
-            requireActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
             (activity as? GenerateActivity)?.moveToNextFragment(GenerateStep3())
         }
-
-        return binding.root
     }
 }
