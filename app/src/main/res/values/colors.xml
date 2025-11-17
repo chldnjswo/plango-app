@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 기본 색상 -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="background_default">#FAF9F9</color>
+
+
+    <!-- 텍스트 컬러 -->
+    <color name="text_primary">#212121</color>     <!-- 주 텍스트 -->
+    <color name="text_secondary">#666666</color>   <!-- 보조 텍스트 -->
+    <color name="text_on_primary">#FFFFFF</color>  <!-- 밝은 배경 위의 글자 -->
+
+    <!-- 버튼 컬러 -->
+    <color name="button_primary">#E07559</color>   <!-- 대표 버튼 (main_orange) -->
+    <color name="button_primary_text">#FFFFFFFF</color>
+
+    <color name="button_secondary">#E5E5EA</color> <!-- 회색 버튼 -->
+    <color name="button_secondary_text">#FFFFFF</color>
+
+    <!-- 카드 / 컨테이너 컬러 -->
+    <color name="card_background">#F5E9DB</color>  <!-- 밝은 배경 카드 -->
+    <color name="card_border">#D8C9B7</color>
+
+    <!-- 테마 포인트 컬러 -->
+    <color name="accent_orange">#E07559</color>
+    <color name="mbti_stroke">#D8C9B7</color>
+    <color name="mbti_bg_default">#F5E9DB</color>
+    <color name="mbti_text_default">#5C5C5C</color><!-- 포인트 / 강조용 -->
+</resources>

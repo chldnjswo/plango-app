@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MbtiButtonStyle"
+    android:id="@+id/btnTheme"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+
+    android:layout_margin="6dp"
+    android:text="미식" />

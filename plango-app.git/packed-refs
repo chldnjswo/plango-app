@@ -1,0 +1,11 @@
+# pack-refs with: peeled fully-peeled sorted 
+467de60c7c0d73a4335f9b307a186e09051cd9a7 refs/heads/GunwooKIM
+7cf07aa6a5dddafc7cf65b17e5a499299e867a8d refs/heads/feature
+537d178c8605bdd6bd5d22a3fda2f1184cdcbac0 refs/heads/main
+bb9d92bdd6ad7e8dc86b34fb288cf25c0138ab05 refs/heads/onejun
+c7590cb954e9c0a9a474ba71543402f96167e69d refs/heads/ui
+131d3e3a66b76cba9911229c482c0bd9688ee4d7 refs/pull/1/head
+db95963c09f256e6a9bae4501a280df601fb00e7 refs/pull/2/head
+7c820e66d5a008430eab0801d161668c05edad54 refs/pull/3/head
+6f454f4c62944af13e4baeecfc85e889837298e0 refs/pull/4/head
+467de60c7c0d73a4335f9b307a186e09051cd9a7 refs/pull/5/head

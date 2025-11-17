@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_default"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvDomesticWhere"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#2E2E2E"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvRecommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#2E2E2E"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerDomestic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:overScrollMode="always"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tvRecommend"
+        app:layout_constraintBottom_toTopOf="@id/searchContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_destination_domestic" />
+
+    <LinearLayout
+        android:id="@+id/searchContainer"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+
+        app:layout_constraintBottom_toTopOf="@id/nextButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="원하는 여행지가 없다면 여기에 입력해주세요!"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutSearchTrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/etSearchTrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="예: 광주"
+                android:minHeight="48dp"
+                android:paddingVertical="12dp"
+                android:textSize="16sp"
+                android:completionThreshold="1"
+                android:inputType="text"
+                android:imeOptions="actionDone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextButton"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:text="다음"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:background="@drawable/btn_base"
+        app:backgroundTintMode="src_over"
+        app:backgroundTint="@android:color/transparent"
+        app:rippleColor="@android:color/transparent"
+        app:cornerRadius="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="40dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
