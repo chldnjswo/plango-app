@@ -1,12 +1,10 @@
-package com.plango.app.ui.main
+package com.plango.app.ui.travelDetail
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,58 +16,58 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.tabs.TabLayout
-import com.plango.app.databinding.FragmentMainPageStep1Binding
-import com.plango.app.viewmodel.TravelViewModel
+import com.plango.app.R
 import com.plango.app.data.travel.TravelDetailResponse
-import com.plango.app.ui.home.HomeActivity
-import com.plango.app.ui.travelDetail.TravelDetailActivity
+import com.plango.app.databinding.FragmentMainPageStep1Binding
+import com.plango.app.databinding.FragmentTravelDetailStep1Binding
+import com.plango.app.ui.main.CourseAdapter
+import com.plango.app.viewmodel.TravelViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class MainPageStep1 : Fragment(), OnMapReadyCallback {
+class TravelDetailStep1 : Fragment(), OnMapReadyCallback {
 
-    private var _binding: FragmentMainPageStep1Binding? = null
+    private var _binding:
+            FragmentTravelDetailStep1Binding? = null
     private val binding get() = _binding!!
 
     private val travelViewModel: TravelViewModel by activityViewModels()
-    private lateinit var map: GoogleMap
-    private lateinit var adapter: CourseAdapter
 
+    private lateinit var map: GoogleMap
+    private lateinit var adapter: TravelDetailAdapter
+
+    private var travelId: Long = -1
     private var currentDayIndex = 0
     private var travelDetail: TravelDetailResponse? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainPageStep1Binding.inflate(inflater, container, false)
+        _binding = FragmentTravelDetailStep1Binding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = CourseAdapter(requireContext())
+        // 🔥 travelId 전달받기
+        travelId = arguments?.getLong("travelId") ?: -1
+        if (travelId != -1L) {
+            travelViewModel.getTravelDetail(travelId)
+        }
+
+        // 🔙 이전 버튼
+        binding.backButton.setOnClickListener {
+            requireActivity().finish()
+        }
+
+        adapter = TravelDetailAdapter(requireContext())
         binding.recyclerCourses.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerCourses.adapter = adapter
 
         val mapFragment =
             childFragmentManager.findFragmentById(com.plango.app.R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        binding.nextButton.setOnClickListener {
-            // 다음 화면으로 이동시키는 코드 넣기
-            // 예: 액티비티로 이동
-            val intent = Intent(requireContext(), HomeActivity::class.java)
-            startActivity(intent)
-
-            // 만약 다음 Fragment로 이동하는 거라면 아래처럼
-            /*
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.mainContainer, NextFragment())
-                .addToBackStack(null)
-                .commit()
-            */
-        }
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -81,26 +79,24 @@ class MainPageStep1 : Fragment(), OnMapReadyCallback {
                 travelDetail = detail
                 setupTabs(detail)
 
-                // map 초기화 이후 마커 표시 보장
                 map.setOnMapLoadedCallback {
                     updateDayMap(0)
                 }
             }
         }
 
-        //  탭 변경 시 마커/리스트 갱신
         binding.tabDays.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 currentDayIndex = tab.position
                 updateDayMap(currentDayIndex)
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 updateDayMap(tab?.position ?: 0)
             }
         })
     }
+
     private fun setupTabs(detail: TravelDetailResponse) {
         binding.tabDays.removeAllTabs()
         detail.days?.forEachIndexed { index, _ ->
@@ -115,9 +111,8 @@ class MainPageStep1 : Fragment(), OnMapReadyCallback {
         map.clear()
         adapter.submitList(day.courses)
 
-        //  일단 모든 마커를 한꺼번에 저장
         val boundsBuilder = LatLngBounds.Builder()
-        var firstMarkerAdded = false
+        var hasMarker = false
 
         day.courses.forEachIndexed { index, course ->
             if (course.lat != null && course.lng != null) {
@@ -129,12 +124,11 @@ class MainPageStep1 : Fragment(), OnMapReadyCallback {
                         .snippet(course.theme ?: "")
                 )
                 boundsBuilder.include(pos)
-                if (!firstMarkerAdded) firstMarkerAdded = true
+                hasMarker = true
             }
         }
 
-        //  모든 마커가 추가된 뒤 카메라 이동
-        if (firstMarkerAdded) {
+        if (hasMarker) {
             val bounds = boundsBuilder.build()
             map.setOnMapLoadedCallback {
                 map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))

@@ -10,11 +10,16 @@ class TravelViewModel : ViewModel() {
 
     private val repository = TravelRepository
 
+    // 여행 상세
     val travelDetailFlow: StateFlow<TravelDetailResponse?> = repository.travelDetailFlow
-    val travelListFlow: StateFlow<List<TravelSummaryResponse>> = repository.travelListFlow
+
+    // ⭐ 리스트 3종류 각각 가져오기
+    val ongoingFlow: StateFlow<List<TravelSummaryResponse>> = repository.ongoingFlow
+    val upcomingFlow: StateFlow<List<TravelSummaryResponse>> = repository.upcomingFlow
+    val finishedFlow: StateFlow<List<TravelSummaryResponse>> = repository.finishedFlow
 
 
-    /**  여행 생성 */
+    /** 여행 생성 */
     fun createTravel(
         userPublicId: String,
         travelType: String,
@@ -23,35 +28,36 @@ class TravelViewModel : ViewModel() {
         endDate: String,
         themes: List<String>,
         companionType: String
-    ) {
-        viewModelScope.launch {
-            val request = TravelCreateRequest(
-                userPublicId = userPublicId,
-                travelType = travelType,
-                travelDest = travelDest,
-                startDate = startDate,
-                endDate = endDate,
-                themes = themes,
-                companionType = companionType
-            )
-            repository.createTravel(request)
-        }
+    ) = viewModelScope.launch {
+        repository.clearTravelDetail()
+        val request = TravelCreateRequest(
+            userPublicId = userPublicId,
+            travelType = travelType,
+            travelDest = travelDest,
+            startDate = startDate,
+            endDate = endDate,
+            themes = themes,
+            companionType = companionType
+        )
+        repository.createTravel(request)
     }
 
-    /**  목록 불러오기 */
-    fun getUpcomingTravels(publicId: String) = viewModelScope.launch {
-        repository.getUpcomingTravels(publicId)
-    }
-
-    fun getFinishedTravels(publicId: String) = viewModelScope.launch {
-        repository.getFinishedTravels(publicId)
-    }
-
-    fun getOngoingTravels(publicId: String) = viewModelScope.launch {
+    /** 진행 중 여행 불러오기 */
+    fun loadOngoing(publicId: String) = viewModelScope.launch {
         repository.getOngoingTravels(publicId)
     }
 
-    /**  상세조회 */
+    /** 다가올 여행 불러오기 */
+    fun loadUpcoming(publicId: String) = viewModelScope.launch {
+        repository.getUpcomingTravels(publicId)
+    }
+
+    /** 지난 여행 불러오기 */
+    fun loadFinished(publicId: String) = viewModelScope.launch {
+        repository.getFinishedTravels(publicId)
+    }
+
+    /** 상세 조회 */
     fun getTravelDetail(travelId: Long) = viewModelScope.launch {
         repository.getTravelDetail(travelId)
     }
