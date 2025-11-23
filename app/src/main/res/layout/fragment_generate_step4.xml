@@ -90,7 +90,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvEndLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:drawableEnd="@drawable/outline_calendar_month_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEndDate"
@@ -101,7 +102,7 @@
             android:textSize="16sp"
             android:paddingHorizontal="16dp"
             android:hint="mm/dd/yyyy"
-            android:drawableEnd="@drawable/outline_calendar_month_24" />
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- 안내 텍스트 -->

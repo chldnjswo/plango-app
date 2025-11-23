@@ -12,14 +12,23 @@
         <item name="rippleColor">@android:color/transparent</item>
     </style>
 
+    <!-- DatePicker 전용 테마 -->
+    <style name="MyDatePickerTheme" parent="Theme.MaterialComponents.Light.Dialog">
 
+        <!-- 헤더 색상 -->
+        <item name="colorPrimary">#E07559</item>
+        <item name="colorAccent">#E07559</item>
+        <item name="android:headerBackground">#E07559</item>
 
+        <!-- 버튼 스타일 지정 -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/MyDialogButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/MyDialogButton</item>
 
+    </style>
 
-
-
-
-
-
+    <!-- DatePickerDialog의 OK/Cancel 버튼에 적용 -->
+    <style name="MyDialogButton" parent="@android:style/Widget.DeviceDefault.Button.Borderless">
+        <item name="android:textColor">#E07559</item>
+    </style>
 
 </resources>
