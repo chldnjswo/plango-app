@@ -16,25 +16,25 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.tabs.TabLayout
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.plango.app.R
 import com.plango.app.data.travel.TravelDetailResponse
-import com.plango.app.databinding.FragmentMainPageStep1Binding
 import com.plango.app.databinding.FragmentTravelDetailStep1Binding
-import com.plango.app.ui.main.CourseAdapter
 import com.plango.app.viewmodel.TravelViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class TravelDetailStep1 : Fragment(), OnMapReadyCallback {
 
-    private var _binding:
-            FragmentTravelDetailStep1Binding? = null
+    private var _binding: FragmentTravelDetailStep1Binding? = null
     private val binding get() = _binding!!
 
     private val travelViewModel: TravelViewModel by activityViewModels()
 
     private lateinit var map: GoogleMap
     private lateinit var adapter: TravelDetailAdapter
+    private lateinit var placesClient: PlacesClient
 
     private var travelId: Long = -1
     private var currentDayIndex = 0
@@ -50,23 +50,24 @@ class TravelDetailStep1 : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 🔥 travelId 전달받기
         travelId = arguments?.getLong("travelId") ?: -1
         if (travelId != -1L) {
             travelViewModel.getTravelDetail(travelId)
         }
 
-        // 🔙 이전 버튼
         binding.backButton.setOnClickListener {
             requireActivity().finish()
         }
 
-        adapter = TravelDetailAdapter(requireContext())
+        // Places 클라이언트는 여기에서 단 1회 생성
+        placesClient = Places.createClient(requireContext())
+
+        adapter = TravelDetailAdapter(placesClient, requireContext())
         binding.recyclerCourses.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerCourses.adapter = adapter
 
         val mapFragment =
-            childFragmentManager.findFragmentById(com.plango.app.R.id.mapFragment) as SupportMapFragment
+            childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 

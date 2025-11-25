@@ -2,12 +2,14 @@ package com.plango.app.api
 
 
 import com.plango.app.data.travel.TravelCreateRequest
+import com.plango.app.data.travel.TravelDeleteResponse
 import com.plango.app.data.travel.TravelDetailResponse
 import com.plango.app.data.travel.TravelSummaryResponse
 import com.plango.app.data.user.UserReadResponse
 import com.plango.app.data.user.UserRequest
 import com.plango.app.data.user.UserResponse
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -52,4 +54,7 @@ interface ApiService {
     suspend fun getTravelDetail(
         @Path("travelId") travelId: Long
     ): TravelDetailResponse
+    @DELETE("api/travels/delete/{travelId}")
+    suspend fun deleteTravel(@Path("travelId") travelId: Long): TravelDeleteResponse
+
 }

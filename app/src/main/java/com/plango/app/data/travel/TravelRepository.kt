@@ -103,4 +103,19 @@ object TravelRepository {
     fun clearTravelDetail() {
         _travelDetailFlow.value = null
     }
+    suspend fun deleteTravel(travelId: Long): Boolean {
+        return try {
+            val res = api.deleteTravel(travelId)
+
+            // 로그 확인용
+            Log.d("TravelRepository", "여행 삭제 성공: msg=${res.msg}, travelId=${res.travelId}")
+
+            true
+        } catch (e: Exception) {
+            Log.e("TravelRepository", "여행 삭제 실패: ${e.message}", e)
+            false
+        }
+    }
+
+
 }

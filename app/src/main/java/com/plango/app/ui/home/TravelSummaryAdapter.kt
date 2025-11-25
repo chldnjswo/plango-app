@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.plango.app.R
 import com.plango.app.databinding.ItemTravelSummaryBinding
 import com.plango.app.data.travel.TravelSummaryResponse
 import java.text.SimpleDateFormat
 import java.util.*
 
 class TravelSummaryAdapter(
-    private val onClick: (TravelSummaryResponse) -> Unit
+    private val onClick: (TravelSummaryResponse) -> Unit,
+    private val onDelete: (TravelSummaryResponse) -> Unit
 ) : RecyclerView.Adapter<TravelSummaryAdapter.ViewHolder>() {
 
     private val items = mutableListOf<Pair<String, TravelSummaryResponse>>()
@@ -69,24 +71,40 @@ class TravelSummaryAdapter(
             binding.tvDate.text = "${item.startDate} ~ ${item.endDate}"
 
             // 초기화
-            binding.tvOngoingLabel.visibility = View.GONE
+
             binding.tvDDay.visibility = View.GONE
             binding.root.setCardBackgroundColor(Color.WHITE)
 
+            binding.btnDelete.setOnClickListener {
+                onDelete(item)
+            }
+
+            // 기본은 삭제 버튼 보임
+            binding.btnDelete.visibility = View.VISIBLE
+
             when (type) {
+                "finished" -> {
+                    // 지난 여행은 삭제 버튼 숨김
+                    binding.btnDelete.visibility = View.GONE
+
+                    // END도 숨기기 → 요청사항 반영
+                    binding.tvDDay.visibility = View.GONE
+                }
 
                 "ongoing" -> {
-                    binding.tvOngoingLabel.visibility = View.VISIBLE
-                    binding.root.setCardBackgroundColor(Color.parseColor("#E8F8F2"))
+                    binding.tvDDay.visibility = View.VISIBLE
+                    binding.tvDDay.text = "D-Day"
+                    binding.tvDDay.setBackgroundResource(R.drawable.d_day_green_bg)
                 }
 
                 "upcoming" -> {
                     binding.tvDDay.visibility = View.VISIBLE
                     binding.tvDDay.text = calculateDDay(item.startDate)
+                    binding.tvDDay.setBackgroundResource(R.drawable.d_day_bg)
                 }
-
-                "finished" -> {}
             }
+
+
 
             binding.root.setOnClickListener { onClick(item) }
         }

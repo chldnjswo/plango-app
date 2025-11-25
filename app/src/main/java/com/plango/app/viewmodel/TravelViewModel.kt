@@ -61,4 +61,15 @@ class TravelViewModel : ViewModel() {
     fun getTravelDetail(travelId: Long) = viewModelScope.launch {
         repository.getTravelDetail(travelId)
     }
+    fun deleteTravel(travelId: Long, userPublicId: String) = viewModelScope.launch {
+        val ok = repository.deleteTravel(travelId)
+
+        if (ok) {
+            // 삭제 후 리스트 다시 로드
+            loadOngoing(userPublicId)
+            loadUpcoming(userPublicId)
+            loadFinished(userPublicId)
+        }
+    }
+
 }

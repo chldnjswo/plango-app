@@ -34,11 +34,20 @@ class HomeStep2 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = TravelSummaryAdapter { item ->
-            val intent = Intent(requireContext(), TravelDetailActivity::class.java)
-            intent.putExtra("travelId", item.travelId)
-            startActivity(intent)
-        }
+        adapter = TravelSummaryAdapter(
+            onClick = { item ->
+                val intent = Intent(requireContext(), TravelDetailActivity::class.java)
+                intent.putExtra("travelId", item.travelId)
+                startActivity(intent)
+            },
+            onDelete = { item ->
+                lifecycleScope.launch {
+                    val publicId = UserPrefs.getUserIdOnce(requireContext()) ?: ""
+                    viewModel.deleteTravel(item.travelId, publicId)
+                }
+            }
+        )
+
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
