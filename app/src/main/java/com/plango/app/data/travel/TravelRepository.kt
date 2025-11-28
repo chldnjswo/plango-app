@@ -54,6 +54,33 @@ object TravelRepository {
         }
     }
 
+    // 여행 재생성
+    suspend fun regenerateTravel(travelId: Long) {
+        try {
+            // @POST 호출
+            val response = api.regenerateTravel(travelId)
+            Log.d("TravelRepository", "여행 재생성 성공: $response")
+
+            // 새로 생성된 일정으로 캐시 교체
+            _travelDetailFlow.value = response
+
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+
+            Log.e(
+                "TravelRepository",
+                """
+                ❌ 여행 재생성 실패 (HttpException)
+                code: ${e.code()}
+                errorBody: $errorBody
+                """.trimIndent()
+            )
+
+        } catch (e: Exception) {
+            Log.e("TravelRepository", "여행 재생성 실패(기타 Exception): ${e.message}", e)
+        }
+    }
+
     // ⭐ 진행 중인 여행
     suspend fun getOngoingTravels(publicId: String) {
         try {

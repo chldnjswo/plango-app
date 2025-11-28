@@ -21,6 +21,8 @@ import com.google.android.material.tabs.TabLayout
 import com.plango.app.databinding.FragmentMainPageStep1Binding
 import com.plango.app.viewmodel.TravelViewModel
 import com.plango.app.data.travel.TravelDetailResponse
+import com.plango.app.data.user.UserPrefs
+import com.plango.app.ui.PageLoading
 import com.plango.app.ui.home.HomeActivity
 import com.plango.app.ui.travelDetail.TravelDetailActivity
 import kotlinx.coroutines.flow.collectLatest
@@ -70,6 +72,19 @@ class MainPageStep1 : Fragment(), OnMapReadyCallback {
             */
         }
 
+        binding.retryButton.setOnClickListener {
+            // 재시도 로직 처리
+
+            val detail = travelDetail ?: return@setOnClickListener
+
+            val intent = Intent(requireContext(), PageLoading::class.java).apply {
+                putExtra("mode", "regenerate")
+                putExtra("travelDetail", detail) // PUT 재생성에 필요한 데이터
+            }
+
+            startActivity(intent)
+            requireActivity().finish()
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
