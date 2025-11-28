@@ -42,6 +42,12 @@ class TravelViewModel : ViewModel() {
         repository.createTravel(request)
     }
 
+    fun regenerateTravel(detail: TravelDetailResponse) = viewModelScope.launch {
+        repository.clearTravelDetail()
+
+        repository.regenerateTravel(detail.travelId)
+    }
+
     /** 진행 중 여행 불러오기 */
     fun loadOngoing(publicId: String) = viewModelScope.launch {
         repository.getOngoingTravels(publicId)

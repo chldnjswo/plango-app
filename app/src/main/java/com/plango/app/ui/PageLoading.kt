@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.plango.app.data.travel.TravelDetailResponse
 import com.plango.app.databinding.ActivityPageLoadingBinding
 import com.plango.app.ui.home.HomeActivity
 import com.plango.app.viewmodel.UserViewModel
@@ -32,6 +33,7 @@ class PageLoading : AppCompatActivity() {
         when (mode) {
             "user" -> handleUserCreate()
             "travel" -> handleTravelCreate()
+            "regenerate" -> handleTravelRegenerate()
         }
     }
 
@@ -103,6 +105,29 @@ class PageLoading : AppCompatActivity() {
                         }
 
                         Toast.makeText(this@PageLoading, "여행 생성 완료!", Toast.LENGTH_SHORT).show()
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleTravelRegenerate() {
+        val detail = intent.getSerializableExtra("travelDetail") as? TravelDetailResponse ?: return
+
+        binding.tvLoadingText.text = "AI가 여행 플랜을 다시 만들고 있어요 🔄"
+
+        travelViewModel.regenerateTravel(detail)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                travelViewModel.travelDetailFlow.collect { response ->
+                    if(response != null) {
+                        val intent = Intent(this@PageLoading, MainPageActivity::class.java).apply {
+                            putExtra("travelDetail", response)
+                        }
+
                         startActivity(intent)
                         finish()
                     }

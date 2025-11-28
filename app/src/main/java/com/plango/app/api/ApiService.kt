@@ -12,23 +12,34 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ApiService {
 
 
-
+    // 유저 생성
     @POST("/api/users/custom")
     suspend fun createUser(
         @Body request : UserRequest
     ) : UserResponse
+
+    // 유저 정보 불러오기
     @GET("/api/users/{publicId}")
     suspend fun getUser(
         @Path("publicId") publicId: String
     ): UserReadResponse
+
+    // 여행 생성
     @POST("/api/travels/create")
     suspend fun createTravel(
         @Body request: TravelCreateRequest
+    ): TravelDetailResponse
+
+    // 여행 재생성
+    @PUT("api/travels/retry/{travelId}")
+    suspend fun regenerateTravel(
+        @Path("travelId") travelId: Long
     ): TravelDetailResponse
 
     //  다가올 여행 목록
@@ -54,7 +65,8 @@ interface ApiService {
     suspend fun getTravelDetail(
         @Path("travelId") travelId: Long
     ): TravelDetailResponse
+
+    // 여행 삭제
     @DELETE("api/travels/delete/{travelId}")
     suspend fun deleteTravel(@Path("travelId") travelId: Long): TravelDeleteResponse
-
 }
