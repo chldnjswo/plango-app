@@ -30,5 +30,21 @@
     <style name="MyDialogButton" parent="@android:style/Widget.DeviceDefault.Button.Borderless">
         <item name="android:textColor">#E07559</item>
     </style>
+    <style name="AppTheme.FullscreenDialog" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowFullscreen">true</item>
+
+        <item name="android:windowIsFloating">false</item>
+
+        <!-- 배경색 → 네가 설정한 앱 배경과 동일하게 -->
+        <item name="android:windowBackground">@color/background_default</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+
+    </style>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
 
 </resources>

@@ -48,4 +48,15 @@ object UserRepository {
             Log.e("UserRepository", "오류 발생: ${e.message}", e)
         }
     }
+    suspend fun updateUser(publicId: String, nickname: String, mbti: String): Boolean {
+        return try {
+            val request = UserUpdateRequest(nickname, mbti)
+            val response = api.updateUser(publicId, request)
+            _userFlow.value = response  // 캐시 갱신
+            true
+        } catch (e: Exception) {
+            Log.e("UserRepository", "유저 수정 실패: ${e.message}", e)
+            false
+        }
+    }
 }

@@ -8,6 +8,7 @@ import com.plango.app.data.travel.TravelSummaryResponse
 import com.plango.app.data.user.UserReadResponse
 import com.plango.app.data.user.UserRequest
 import com.plango.app.data.user.UserResponse
+import com.plango.app.data.user.UserUpdateRequest
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -28,6 +29,12 @@ interface ApiService {
     @GET("/api/users/{publicId}")
     suspend fun getUser(
         @Path("publicId") publicId: String
+    ): UserReadResponse
+    // 유저 정보 수정하기
+    @PUT("/api/users/{publicId}")
+    suspend fun updateUser(
+        @Path("publicId") publicId: String,
+        @Body request: UserUpdateRequest
     ): UserReadResponse
 
     // 여행 생성

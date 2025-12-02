@@ -23,4 +23,13 @@ class UserViewModel : ViewModel() {
             repository.createUserAndCache(name, mbti)
         }
     }
+    fun updateUser(publicId: String, nickname: String, mbti: String) {
+        viewModelScope.launch {
+            val ok = repository.updateUser(publicId, nickname, mbti)
+            if (ok) {
+                // 업데이트 후 최신 프로필 다시 가져오기
+                repository.getUserById(publicId)
+            }
+        }
+    }
 }
